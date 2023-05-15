@@ -1,0 +1,354 @@
+.product-card-min {
+  position: relative;
+  overflow: hidden;
+}
+.product-card-min::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 11;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.4s;
+}
+.product-card-min .btn-pink {
+  margin: 0 auto;
+  position: absolute;
+  top: 150%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+  max-width: 259px;
+  width: 100%;
+  transition: all 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  visibility: visible;
+  z-index: 22;
+}
+.product-card-min:hover::after, .product-card-min:focus::after, .product-card-min:active::after {
+  background-color: rgba(19, 19, 19, 0.43);
+}
+.product-card-min:hover .btn-pink, .product-card-min:focus .btn-pink, .product-card-min:active .btn-pink {
+  top: 50%;
+  opacity: 1;
+  pointer-events: initial;
+  visibility: visible;
+}
+
+.eror-banner {
+  padding: 64px 0;
+  background-color: #000000;
+  color: #ffffff;
+  position: relative;
+}
+.eror-banner__grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.eror-banner__img img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  display: block;
+  height: 100%;
+}
+.eror-banner__details {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 504px;
+}
+.eror-banner__details .label {
+  font-weight: 400;
+  font-size: 1rem;
+  color: #ffffff;
+}
+.eror-banner__details .title {
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 700;
+  font-size: 1.7rem;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+}
+.eror-banner__details .text {
+  margin: 0;
+  font-size: 1rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+.eror-banner__details .btn-pink {
+  margin-right: auto;
+  margin-left: 0;
+  max-width: max-content !important;
+}
+
+.personal-account {
+  padding: 34px 0 48px;
+}
+.personal-account__grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr 3fr;
+  align-items: flex-start;
+}
+.personal-account__links li:not(:last-of-type) {
+  margin-bottom: 16px;
+}
+.personal-account__links a {
+  display: block;
+  padding: 15px 24px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #131313;
+  background: #ffffff;
+  border: 1px solid #e8e8ed;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+.personal-account__links a:active, .personal-account__links a:focus, .personal-account__links a:hover, .personal-account__links a.active {
+  border: 2px solid #ec008c;
+  border-radius: 4px;
+  color: #131313;
+}
+.personal-account__content .title {
+  margin: 0;
+  margin-bottom: 40px;
+}
+.personal-account__items-group .title {
+  margin-bottom: 32px;
+  font-size: 24px;
+}
+.personal-account__items-group:not(:last-of-type) {
+  margin-bottom: 32px;
+}
+.personal-account__items-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1fr;
+}
+.personal-account__form-item {
+  display: grid;
+  align-items: center;
+  gap: 32px;
+  grid-template-columns: 1fr 3.5fr;
+}
+.personal-account__form-item .form-label {
+  margin: 0;
+  flex-shrink: 0;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+}
+.personal-account__form-item input {
+  line-height: 1;
+}
+.personal-account__mark {
+  margin: 0;
+  display: block;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #838383;
+  margin-top: 10px;
+}
+.personal-account__form-button {
+  display: flex;
+  justify-content: flex-end;
+  max-width: max-content;
+  margin-left: auto;
+}
+.personal-account__form-button .btn-transparent {
+  max-width: max-content;
+}
+.personal-account__form-button .btn + .btn {
+  margin-left: 32px;
+}
+
+.account-order-card {
+  border-top: 1px solid #e8e8ed;
+  padding: 23px 0 32px;
+}
+.account-order-card__title {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  margin: 0;
+  margin-bottom: 16px;
+}
+.account-order-card__grid {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 24px;
+}
+.account-order-card__label {
+  display: block;
+  color: #ec008c;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+.account-order-card__name {
+  font-weight: 500;
+  font-size: 16px;
+  color: #131313;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto auto;
+  max-width: max-content;
+  gap: 12px;
+}
+.account-order-card .status {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  padding: 12px 20px;
+  color: #ef4848;
+  background: #fdefef;
+  border: 1px solid #ef4848;
+  border-radius: 4px;
+  max-width: 140px;
+}
+.account-order-card__total {
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+.account-order-card__total:last-of-type {
+  margin-bottom: 0;
+}
+.account-order-card__footer {
+  display: grid;
+  gap: 32px;
+  grid-template-columns: auto 1fr;
+}
+.account-order-card__buttons {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 32px;
+  margin-left: auto;
+}
+.account-order-card__buttons .btn {
+  max-width: max-content;
+  width: initial;
+}
+
+.account-order-card--mod .account-order-card__total {
+  margin-bottom: 24px;
+}
+.account-order-card--mod .account-order-card__footer {
+  grid-template-columns: auto auto;
+}
+
+@media (max-width: 1600px) {
+  .eror-banner__img img {
+    position: initial;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    display: block;
+    height: 100%;
+  }
+  .eror-banner__details {
+    min-height: initial;
+  }
+}
+@media (max-width: 1220px) {
+  .account-order-card__grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 880px) {
+  .personal-account__grid {
+    grid-template-columns: 1fr;
+  }
+  .personal-account__links ul {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .personal-account__form-item {
+    gap: 16px;
+  }
+}
+@media (max-width: 650px) {
+  .eror-banner {
+    padding: 48px 0;
+  }
+  .eror-banner__grid {
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+  .eror-banner__img img {
+    max-height: 300px;
+    margin: 0 auto;
+  }
+  .personal-account ul {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .personal-account li {
+    margin: 0 !important;
+  }
+  .personal-account__links a {
+    height: 48px;
+    display: flex;
+    align-items: center;
+  }
+  .account-order-card__grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (max-width: 500px) {
+  .personal-account ul {
+    grid-template-columns: 1fr;
+  }
+  .personal-account__form-item {
+    gap: 10px;
+    grid-template-columns: 1fr;
+  }
+  .personal-account__form-button {
+    display: grid;
+    justify-content: initial;
+    max-width: initial;
+    margin-left: initial;
+    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .personal-account__form-button .btn {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 !important;
+  }
+  .account-order-card__footer {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .account-order-card__buttons {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 0;
+    max-width: 100%;
+  }
+  .account-order-card__buttons .btn {
+    max-width: 100%;
+    width: 100%;
+  }
+}

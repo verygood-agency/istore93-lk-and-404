@@ -1,0 +1,205 @@
+
+; /* Start:"a:4:{s:4:"full";s:88:"/local/templates/main/components/bitrix/catalog.element/catalog/script.js?16835212159469";s:6:"source";s:73:"/local/templates/main/components/bitrix/catalog.element/catalog/script.js";s:3:"min";s:0:"";s:3:"map";s:0:"";}"*/
+arJSElement = function (params) {
+    arElementResult = params;
+    console.log("elem.script");
+    console.log(arElementResult);
+};
+
+
+(function(window) {
+  window.addEventListener('DOMContentLoaded', function() {
+    let btnAdd = document.getElementById('add-product');
+
+    //Функция вычисления торгового предложения по выбранным свойствам и обновления id, веса, цены и КБЖУ
+    function checkOffers(e) {
+      //console.log(e);
+      let photoHtml = "";
+
+        if (arElementResult['JS_OFFERS'].length > 0) {
+          var arOffer = [];
+          //Проходимся по торговым предложениям
+          for (var iOffer = 0; iOffer < arElementResult['JS_OFFERS'].length; iOffer++) {
+            var check = true;
+            //Проходимся по свойствам торгового предложения и проверяем на соответствие выбранным свойствам
+            for (var idProp in arElementResult['JS_OFFERS'][iOffer]['TREE']) {
+              if (arElementResult['JS_OFFERS'][iOffer]['TREE'][idProp] != "0") {
+                if (!document.querySelector('input[name="' + idProp + '"]:checked')) {
+                  check = false;
+                  break;
+                } else if (document.querySelector('input[name="' + idProp + '"]:checked').value != arElementResult['JS_OFFERS'][iOffer]['TREE'][idProp]) {
+                  check = false;
+                  break;
+                }
+              }
+            }
+            if (check) {
+              arOffer = arElementResult['JS_OFFERS'][iOffer];
+              break;
+            }
+          }
+          //console.log(arOffer);
+
+          //Обновляем
+          if (arOffer != 0) {
+            //Изменяем адрес страницы
+            if (history.pushState) {
+              var baseUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+              var newUrl = baseUrl + '?offer='+arOffer["ID"];
+              history.pushState(null, null, newUrl);
+            }
+            else {
+              console.warn('History API не поддерживается');
+            }
+
+            document.getElementById("id").value = arOffer["ID"];
+            document.getElementById("title").innerHTML = arOffer["NAME"];
+            document.getElementById("price").innerHTML = arOffer["ITEM_PRICES"][arOffer["ITEM_PRICE_SELECTED"]]["PRINT_RATIO_PRICE"];
+            document.getElementById("block_buy").classList.remove("hidden");
+
+            if (arOffer["PROPERTIES"]["MORE_PHOTO"] != undefined && arOffer["PROPERTIES"]["MORE_PHOTO"]["VALUE"].length > 0) {
+              for (var keyPhoto in arOffer["PROPERTIES"]["MORE_PHOTO"]["VALUE"]) {
+                photoHtml = photoHtml + '<div class="swiper-slide"><div class="swiper-slide__image"><img src="' + arOffer["PROPERTIES"]["MORE_PHOTO"]["VALUE"][keyPhoto]["src"] + '"></div></div>';
+              }
+            } else if (arElementResult['ELEMENT']["MORE_PHOTO"] != undefined && arElementResult['ELEMENT']["MORE_PHOTO"].length > 0) {
+              for (var keyPhoto in arElementResult['ELEMENT']["MORE_PHOTO"]) {
+                photoHtml = photoHtml + '<div class="swiper-slide"><div class="swiper-slide__image"><img src="' + arElementResult['ELEMENT']["MORE_PHOTO"][keyPhoto]["src"] + '"></div></div>';
+              }
+            }
+            document.getElementById("slider").innerHTML = photoHtml;
+            document.getElementById("slider-mini").innerHTML = photoHtml;
+
+            btnAdd.querySelector('span').innerHTML = "Добавить в корзину";
+
+            if (arOffer["PROPERTIES"]["ARTNUMBER"] != undefined) {
+              document.getElementById("artnumber").innerHTML = arOffer["PROPERTIES"]["ARTNUMBER"]["VALUE"];
+            } else {
+              document.getElementById("artnumber").innerHTML = "";
+            }
+
+            //Добавление характеристик ТП в краткие характеристики
+            if (arOffer["DISPLAY_PROPERTIES"] != undefined) {
+              let propsAnonsHtml = "";
+              for (var keyProp in arOffer["DISPLAY_PROPERTIES"]) {
+                if (arOffer["DISPLAY_PROPERTIES"][keyProp]["FILTRABLE"] == "Y") {
+                  propsAnonsHtml = propsAnonsHtml + '<li>' + arOffer["DISPLAY_PROPERTIES"][keyProp]["NAME"] + ': <strong>' + arOffer["DISPLAY_PROPERTIES"][keyProp]["DISPLAY_VALUE"] + '</strong></li>';
+                }
+              }
+              document.getElementById("tp-props-anons").innerHTML = propsAnonsHtml;
+            } else {
+              document.getElementById("tp-props-anons").innerHTML = "";
+            }
+
+            //Добавление характеристик ТП в основные характеристики
+            document.querySelectorAll('.js-tp-prop').forEach(prop => {
+              prop.remove();
+            });
+            if (arOffer["DISPLAY_PROPERTIES_GROUPS"] != undefined) {
+              for (var keyGroup in arOffer["DISPLAY_PROPERTIES_GROUPS"]) {
+                let group = document.querySelector('table[data-name="'+keyGroup+'"]');
+                if (group != undefined) {
+                  for (var keyProp in arOffer["DISPLAY_PROPERTIES_GROUPS"][keyGroup]) {
+                    group.innerHTML = '<tr class="js-tp-prop"><td>'+arOffer["DISPLAY_PROPERTIES_GROUPS"][keyGroup][keyProp]["NAME"]+'</td><td>'+arOffer["DISPLAY_PROPERTIES_GROUPS"][keyGroup][keyProp]["VALUE"]+'</td></tr>' + group.innerHTML;
+                  }
+                } else {
+                  //Создавать группы, если нет
+                }
+              }
+            }
+          } else {
+            document.getElementById("id").value = "";
+            document.getElementById("title").innerHTML = arElementResult['ELEMENT']["NAME"];
+            document.getElementById("price").innerHTML = "";
+            document.getElementById("block_buy").classList.add("hidden");
+
+            if (arElementResult['ELEMENT']["MORE_PHOTO"] != undefined && arElementResult['ELEMENT']["MORE_PHOTO"].length > 0) {
+              for (var keyPhoto in arElementResult['ELEMENT']["MORE_PHOTO"]) {
+                photoHtml = photoHtml + '<div class="swiper-slide"><div class="swiper-slide__image"><img src="' + arElementResult['ELEMENT']["MORE_PHOTO"][keyPhoto]["src"] + '"></div></div>';
+              }
+            }
+            document.getElementById("slider").innerHTML = photoHtml;
+            document.getElementById("slider-mini").innerHTML = photoHtml;
+
+            document.getElementById("artnumber").innerHTML = "";
+            document.getElementById("tp-props-anons").innerHTML = "";
+            document.querySelectorAll('.js-tp-prop').forEach(prop => {
+              prop.remove();
+            });
+          }
+        }
+
+    }
+
+    //Событие изменения свойств товара
+    document.querySelectorAll('#sku-props input').forEach(item => {
+      item.addEventListener('change', checkOffers);
+    })
+
+    checkOffers();
+
+    //Добавление товара в корзину
+    btnAdd.addEventListener('click', function(e) {
+      if (btnAdd.querySelector('span').innerHTML != "В корзине") {
+        e.preventDefault()
+
+        let id = document.getElementById("id").value;
+        if (id == "") {
+          alert("Ошибка добавления товара в корзину");
+        } else {
+          let data = {};
+          data["offers"] = {};
+          data["offers"][id] = {};
+          data["offers"][id]["id"] = id;
+          data["offers"][id]["quantity"] = 1;
+          data["offers"] = JSON.stringify(data["offers"]);
+
+          //console.log(data);
+
+          //Добавление товара в корзину
+          if (window.BX && window.BX.ajax) {
+            window.BX.ajax({
+              url: '/local/ajax/addBasket.php',
+              method: 'POST',
+              data: data,
+              onsuccess: function (res) {
+                res = JSON.parse(res)
+                //console.log(res);
+
+                if (res['status']) {
+                  btnAdd.querySelector('span').innerHTML = "В корзине";
+
+                  //Обновляем корзину в шапке
+                  window.BX.ajax({
+                    url: '/local/include/header/basket.php',
+                    method: 'POST',
+                    data: data,
+                    onsuccess: function (res) {
+                      //console.log(res);
+
+                      if (res) {
+                        document.getElementById('block-cart').innerHTML = res;
+                      }
+                    },
+                    onfailure: function () {
+                    }
+                  })
+
+                } else {
+                  alert("Ошибка добавления в корзину");
+                }
+              },
+              onfailure: function () {
+                alert("Ошибка добавления в корзину");
+              }
+            })
+          }
+        }
+      } else {
+        document.location.href = arElementResult["BASKET_URL"];
+      }
+    })
+
+  });
+})(window);
+/* End */
+;; /* /local/templates/main/components/bitrix/catalog.element/catalog/script.js?16835212159469*/
